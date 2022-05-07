@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.wan91.simo.lib.api.Wan91SDK;
 import com.wan91.simo.lib.utils.Wan91Log;
 
 public class Wan91Application extends Application {
@@ -26,6 +27,7 @@ public class Wan91Application extends Application {
             this.listener.onProxyCreate();
         }
         // sdk app 相关事件
+        Wan91SDK.getInstance().init(this);
         Log.d("liusy","application");
     }
 

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="wan91_color_black">#000000</color>
+    <color name="wan91_color_white">#FFFFFF</color>
+    <color name="wan91_bg_listview_color_select">#F5F2E9</color>
+    <color name="wan91_line_color">#ebebe5</color>
+    <color name="wan91_line_color_deep">#cccccc</color>
+    <color name="wan91_main_text_color">#333333</color>
+    <color name="wan91_auxi_color">#878377</color>
+    <color name="wan91_black">#ff000000</color>
+    <color name="wan91_bule_color">#4169E1</color>
+    <color name="wan91_bule_color2">#54b9fc</color>
+    <color name="wan91_gray_color">#969596</color>
+    <color name="wan91_red_color">#F1001A</color>
+    <color name="wan91_dimgray_color">#FFFFFF</color>
+    <color name="wan91_float_title_color">#DEDEDE</color>
+    <color name="wan91_gray_txt_color">#969596</color>
+</resources>

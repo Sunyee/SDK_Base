@@ -2,4 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wan91.simo.lib">
 
+    <application>
+        <activity
+            android:name="com.wan91.simo.lib.user.UserPopActivity"
+            android:theme="@android:style/Theme.Translucent"/>
+    </application>
 </manifest>

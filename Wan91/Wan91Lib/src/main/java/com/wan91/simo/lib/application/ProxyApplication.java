@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.wan91.simo.lib.api.Wan91SDK;
+
 public class ProxyApplication {
 
     private String DEFAULT_PKG_NAME;
@@ -26,6 +28,7 @@ public class ProxyApplication {
         if (listener != null) {
             listener.onProxyCreate();
         }
+        Wan91SDK.getInstance().init(app);
     }
 
     public void attachBaseContext(Context base) {
