@@ -15,8 +15,12 @@ public class Wan91Log {
     }
 
     public static void i(String msg) {
+        i(TAG,msg);
+    }
+
+    public static void i(String tag, String msg) {
         if (DEBUG) {
-            Log.i(TAG, msg);
+            Log.i(tag, msg);
         }
     }
 

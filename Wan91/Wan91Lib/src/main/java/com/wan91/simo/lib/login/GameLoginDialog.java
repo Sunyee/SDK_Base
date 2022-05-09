@@ -12,6 +12,7 @@ import com.custom.framework.viewmodel.ViewModelProvider;
 import com.wan91.simo.lib.listener.OnMultiClickListener;
 import com.wan91.simo.lib.login.model.Wan91LoginModel;
 import com.wan91.simo.lib.utils.LayoutUtils;
+import com.wan91.simo.lib.utils.Wan91Log;
 import com.wan91.windows.BaseDialog;
 
 public class GameLoginDialog extends BaseDialog {
@@ -34,7 +35,7 @@ public class GameLoginDialog extends BaseDialog {
             @Override
             public void onChanged(UserResult countTime) {
                 //登录成功， 隐藏弹窗
-
+                Wan91Log.d("登录成功了");
             }
         });
 
