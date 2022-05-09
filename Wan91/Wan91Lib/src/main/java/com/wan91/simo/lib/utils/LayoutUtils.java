@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class LayoutUtils {
 
-	private static final String TAG = "MCHInflaterUtils";
+	private static final String TAG = "LayoutUtils";
 
 	/**
 	 * 获取布局文件

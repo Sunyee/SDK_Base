@@ -1,4 +1,4 @@
-package com.wan91.simo.lib.application;
+package com.wan91.simo.application;
 
 import android.app.Application;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.wan91.simo.lib.api.Wan91SDK;
+import com.wan91.simo.api.Wan91SDK;
 import com.wan91.simo.lib.utils.Wan91Log;
 
 public class Wan91Application extends Application {

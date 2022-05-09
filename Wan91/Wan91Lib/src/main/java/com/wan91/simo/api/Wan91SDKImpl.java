@@ -1,17 +1,16 @@
-package com.wan91.simo.lib.api;
+package com.wan91.simo.api;
 
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 
-import com.wan91.simo.lib.application.ActivityLifecycle;
 import com.wan91.simo.lib.constant.GameSDKConstant;
 import com.wan91.simo.lib.floatView.FloatViewManager;
+import com.wan91.simo.lib.login.LoginPresenter;
 import com.wan91.simo.lib.login.OnLoginListener;
 import com.wan91.simo.lib.login.OnLogoutListener;
 import com.wan91.simo.lib.pay.PayCallback;
-import com.wan91.simo.lib.utils.SharedPreferencesUtils;
 import com.wan91.simo.lib.utils.Wan91Log;
 
 import java.util.Map;
@@ -55,14 +54,21 @@ class Wan91SDKImpl extends Wan91SDK{
     public void init(Application application) {
         mApplicationContext = application.getApplicationContext();
         mApplication = application;
-//        initUMen(context);
+
+        // 初始化后续的其他逻辑  加载参数，等等。 有些逻辑可能需要在 initSDK 中处理
+        //        initUMen(context);
 //        initBugly(context);
-        // 初始化后续的其他逻辑
     }
 
     @Override
-    public void initSDK(final Activity mainActivity, final boolean debug) {
+    public void initSDK(final Activity mainActivity) {
         mContext = mainActivity;
+
+        //应用权限设置？
+    }
+
+    @Override
+    public void setDebug(final boolean debug) {
         Wan91Log.setDEBUG(debug);
     }
 
@@ -77,20 +83,7 @@ class Wan91SDKImpl extends Wan91SDK{
             Wan91Log.e(TAG, "fun#login context is null");
             return;
         }
-        /*
-        *  这里加上一些登录判断
-        * */
-        boolean isThreeLogin = !SharedPreferencesUtils.getInstance().getIsThreeLogin(mContext);
-        if (isThreeLogin){
-        }
-        boolean autoLogin = SharedPreferencesUtils.getInstance().getAutoLogin(mContext);
-        if(autoLogin && !SharedPreferencesUtils.getInstance().getIsLogout(mContext)){
-            //如果开启了自动登录、上次没有注销登录、上次不是QQ微信第三方快捷登录、没有开启极验，则调用自动登录
-//            autologin(context);
-        }else{
-            //调用登录接口
-//            login(context);
-        }
+        LoginPresenter.instance().doLogin(mContext);
         //假装登录成功
         GameSDKConstant.isLogin = true;
 

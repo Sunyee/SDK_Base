@@ -1,10 +1,10 @@
-package com.wan91.simo.lib.api;
+package com.wan91.simo.api;
 
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 
-import com.wan91.simo.lib.application.ActivityLifecycle;
+import com.wan91.simo.application.ActivityLifecycle;
 import com.wan91.simo.lib.login.OnLoginListener;
 import com.wan91.simo.lib.login.OnLogoutListener;
 import com.wan91.simo.lib.pay.PayCallback;
@@ -30,9 +30,8 @@ public abstract class Wan91SDK implements ActivityLifecycle{
     /**
      * 启动SDK接口 需要在onCreate中调用
      * @param mainActivity
-     * @param debug
      */
-    public abstract void initSDK(Activity mainActivity, boolean debug);
+    public abstract void initSDK(Activity mainActivity);
 
     public abstract void login();
 
@@ -65,4 +64,5 @@ public abstract class Wan91SDK implements ActivityLifecycle{
 
     public abstract  Intent getCPMainActivity();
 
+    public abstract void setDebug(boolean debug);
 }

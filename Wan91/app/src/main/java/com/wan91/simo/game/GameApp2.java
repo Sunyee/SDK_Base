@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.util.Log;
 
-import com.wan91.simo.lib.application.Wan91ProxyApplication;
+import com.wan91.simo.application.Wan91ProxyApplication;
 
 
 /**

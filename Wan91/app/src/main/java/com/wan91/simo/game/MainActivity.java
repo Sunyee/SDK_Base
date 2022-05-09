@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.wan91.simo.lib.api.Wan91SDK;
+import com.wan91.simo.api.Wan91SDK;
 import com.wan91.simo.lib.floatView.FloatViewManager;
 import com.wan91.simo.lib.login.OnLoginListener;
 import com.wan91.simo.lib.login.OnLogoutListener;
@@ -72,6 +72,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void login() {
+        //登录接口， 因为和初始化存在并发情况， 一定要在初始化成功之后调用。 否则会导致初始化未完成时进行调用登录不成功。
         Wan91SDK.getInstance().login();
     }
 
@@ -80,10 +81,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
      * 初始化相关功能
      */
     private void sdkInit() {
-
         // 1.初始化SDK
 //        Wan91SDK.getInstance().init(this);
-        Wan91SDK.getInstance().initSDK(this, true);
+        Wan91SDK.getInstance().initSDK(this);
+        Wan91SDK.getInstance().setDebug(true); //上线时不要打开
 
         //设置登录回调
         Wan91SDK.getInstance().setOnLoginListener(loginCallback);

@@ -34,7 +34,6 @@ public class FloatViewManager {
     public void show() {
         //判断是否登录成功
         if (!GameSDKConstant.isLogin){
-            Wan91Log.i("没登陆不显示float");
             return;
         }
         if (!floatingIsShow) {

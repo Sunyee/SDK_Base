@@ -1,4 +1,4 @@
-package com.wan91.simo.lib.application;
+package com.wan91.simo.application;
 
 import android.content.Context;
 import android.content.res.Configuration;

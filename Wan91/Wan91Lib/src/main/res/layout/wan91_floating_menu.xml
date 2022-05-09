@@ -13,12 +13,12 @@
             android:layout_marginTop="1dp"
             android:layout_marginBottom="1dp">
 
-            <com.wan91.simo.lib.view.CircleImageView
-                android:id="@+id/txt_mch_channel_name"
+            <com.wan91.widgets.CircleImageView
+                android:id="@+id/wan91_float_icon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/mch_float_ico" />
+                android:src="@mipmap/wan91_float_ico" />
             <TextView
                 android:id="@+id/tv_weidu"
                 android:layout_width="10dp"

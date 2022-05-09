@@ -48,9 +48,9 @@ public class UserPopActivity extends Activity {
 //            bitmapUtils.display(hread, head_img);
 //        } else {
 //            if (PersonalCenterModel.getInstance().channelAndGame.getSex() == 0) {
-//                hread.setImageDrawable(getResources().getDrawable(LayoutUtils.getDrawable(MCHFunctionPopActivity.this, "wan91_nav_pic_touxiang")));
+//                hread.setImageDrawable(getResources().getDrawable(LayoutUtils.getDrawable(UserPopActivity.this, "wan91_nav_pic_touxiang")));
 //            } else {
-//                hread.setImageDrawable(getResources().getDrawable(LayoutUtils.getDrawable(MCHFunctionPopActivity.this, "wan91_nav_pic_touxiang_women")));
+//                hread.setImageDrawable(getResources().getDrawable(LayoutUtils.getDrawable(UserPopActivity.this, "wan91_nav_pic_touxiang_women")));
 //            }
 //        }
         view_null.setOnClickListener(new OnMultiClickListener() {

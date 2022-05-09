@@ -156,7 +156,7 @@ public class FloatView extends FrameLayout implements  View.OnTouchListener{
         LayoutInflater inflater = LayoutInflater.from(context);
         // 从布局文件获取浮动窗口视图
         View rootFloatView = inflater.inflate(LayoutUtils.getLayout(context, "wan91_floating_menu"), null);
-        mFloatIcon = rootFloatView.findViewById(LayoutUtils.getControl(context, "txt_mch_channel_name"));
+        mFloatIcon = rootFloatView.findViewById(LayoutUtils.getControl(context, "wan91_float_icon"));
         rlFloating = rootFloatView.findViewById(LayoutUtils.getControl(context, "rl_floating"));
 
 //        mFloatIcon.setImageBitmap(Constant.XFBitmap);

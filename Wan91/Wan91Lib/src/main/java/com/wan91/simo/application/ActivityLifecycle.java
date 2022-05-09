@@ -1,10 +1,7 @@
-package com.wan91.simo.lib.application;
+package com.wan91.simo.application;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 
-import com.wan91.simo.lib.api.Wan91SDK;
 
 public interface ActivityLifecycle {
 

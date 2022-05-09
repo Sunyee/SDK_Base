@@ -1,4 +1,4 @@
-package com.wan91.simo.lib.view;
+package com.wan91.widgets;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,8 +7,6 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Path.Direction;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;

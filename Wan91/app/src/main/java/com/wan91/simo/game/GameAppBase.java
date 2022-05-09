@@ -1,6 +1,6 @@
 package com.wan91.simo.game;
 
-import com.wan91.simo.lib.application.Wan91Application;
+import com.wan91.simo.application.Wan91Application;
 
 public class GameAppBase extends Wan91Application {
 
