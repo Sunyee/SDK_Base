@@ -24,7 +24,8 @@ public class Wan91LoginModel extends BaseViewModel {
             loginListData.postValue(null);
             return;
         }
-        NetApi.loginBy91("", "", new JsonCallback<FunctionBean>() {
+
+        NetApi.loginBy91("lsy54631", "111111", new JsonCallback<FunctionBean>() {
             @Override
             public void onError(Exception e) {
 

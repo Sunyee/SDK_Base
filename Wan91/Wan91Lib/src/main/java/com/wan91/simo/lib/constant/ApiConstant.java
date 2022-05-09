@@ -1,7 +1,7 @@
 package com.wan91.simo.lib.constant;
 
 public abstract class ApiConstant {
-    public static String HOST_USER = "https://www.wan91.com/";
+    public static String HOST_USER = "https://login.xy51.com/";
 
     static {
         /**
@@ -21,6 +21,6 @@ public abstract class ApiConstant {
     /**
      * 登录
      */
-    public static final String WAN91_USER_LOGIN = HOST_USER + "login";
+    public static final String WAN91_USER_LOGIN = HOST_USER + "game-center/login/visitorsLogin";
 
 }
