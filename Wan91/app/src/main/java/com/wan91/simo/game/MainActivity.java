@@ -2,21 +2,21 @@ package com.wan91.simo.game;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-
 import com.wan91.simo.lib.api.Wan91SDK;
-import com.wan91.simo.lib.floatView.MCHFloatView;
+import com.wan91.simo.lib.floatView.FloatViewManager;
 import com.wan91.simo.lib.login.OnLoginListener;
 import com.wan91.simo.lib.login.OnLogoutListener;
 import com.wan91.simo.lib.login.UserResult;
 
-public class MainActivity extends Activity implements View.OnClickListener{
-    static  final String TAG = "liusy app";
+public class MainActivity extends Activity implements View.OnClickListener {
+    static final String TAG = "liusy app";
     private Button btn_login;
     private Button btn_logout;
     private Button btn_pay;
@@ -54,22 +54,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
             pay();
         } else if (v == btn_on_plugin_message) {
 //            onPluginMessage();
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    MCHFloatView.getInstance(MainActivity.this).show();
-                }
-            });
         } else if (v == btn_create_info) {
             createAccount();
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    MCHFloatView.getInstance(MainActivity.this).close();
-                }
-            });
+            FloatViewManager.getInstance(MainActivity.this).hide();
         }
     }
 
@@ -96,7 +83,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         // 1.初始化SDK
 //        Wan91SDK.getInstance().init(this);
-        Wan91SDK.getInstance().initSDK(this,true);
+        Wan91SDK.getInstance().initSDK(this, true);
 
         //设置登录回调
         Wan91SDK.getInstance().setOnLoginListener(loginCallback);
@@ -133,7 +120,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                     int ageStatus = result.getAgeStatus();  //用户实名认证状态：2认证通过且已成年 -1用户不存在 0未认证 1认证失败 3认证通过但未成年
                     String birthday = result.getBirthday(); //实名认证用户生日信息
                     String extra_param = result.getExtra_param();  //sdk预留的标识，发起支付方法时再传给sdk
-                    Log.w(TAG,"sdk登录成功,"+"userid = " + uid + "，token = " + token
+                    Log.w(TAG, "sdk登录成功," + "userid = " + uid + "，token = " + token
                             + "，ageStatus = " + ageStatus + "， birthday = " + birthday);
 
                     //游戏在这时需要拿到以上userid和token到sdk服务端验证登录结果（详见《游戏登录支付通知接口文档》）
@@ -162,4 +149,33 @@ public class MainActivity extends Activity implements View.OnClickListener{
         }
     };
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Wan91SDK.getInstance().onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Wan91SDK.getInstance().onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Wan91SDK.getInstance().onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Wan91SDK.getInstance().onStop();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Wan91SDK.getInstance().onActivityResult(requestCode, resultCode, data);
+    }
 }

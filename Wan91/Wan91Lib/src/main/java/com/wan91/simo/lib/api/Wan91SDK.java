@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 
+import com.wan91.simo.lib.application.ActivityLifecycle;
 import com.wan91.simo.lib.login.OnLoginListener;
 import com.wan91.simo.lib.login.OnLogoutListener;
 import com.wan91.simo.lib.pay.PayCallback;
 
 import java.util.Map;
 
-public abstract class Wan91SDK{
+public abstract class Wan91SDK implements ActivityLifecycle{
 
     protected Wan91SDK() {
 
@@ -63,4 +64,5 @@ public abstract class Wan91SDK{
     public abstract void setCPMainActivity(String mainActivityName);
 
     public abstract  Intent getCPMainActivity();
+
 }

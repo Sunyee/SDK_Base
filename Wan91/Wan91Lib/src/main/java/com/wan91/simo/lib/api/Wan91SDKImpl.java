@@ -7,6 +7,7 @@ import android.content.Intent;
 
 import com.wan91.simo.lib.application.ActivityLifecycle;
 import com.wan91.simo.lib.constant.GameSDKConstant;
+import com.wan91.simo.lib.floatView.FloatViewManager;
 import com.wan91.simo.lib.login.OnLoginListener;
 import com.wan91.simo.lib.login.OnLogoutListener;
 import com.wan91.simo.lib.pay.PayCallback;
@@ -15,12 +16,17 @@ import com.wan91.simo.lib.utils.Wan91Log;
 
 import java.util.Map;
 
-class Wan91SDKImpl extends Wan91SDK implements ActivityLifecycle {
+class Wan91SDKImpl extends Wan91SDK{
 
     private static final String TAG = "YTSSDK";
 
     private Context mApplicationContext;
     private Application mApplication;
+
+    public Activity getActivity() {
+        return mContext;
+    }
+
     private Activity mContext;
     private OnLoginListener mLoginCallback;
     private OnLogoutListener mOnLogoutListener;
@@ -176,22 +182,37 @@ class Wan91SDKImpl extends Wan91SDK implements ActivityLifecycle {
 
     @Override
     public void onStart() {
-
     }
 
     @Override
-    public void onResumed() {
-
+    public void onResume() {
+        Wan91Log.d("onResume");
+        // 回到游戏，开启上报， 防沉迷等功能
+        mContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                //悬浮球
+                FloatViewManager.getInstance(mContext).show();
+            }
+        });
     }
 
     @Override
     public void onPause() {
-
+        Wan91Log.d("onPause");
+        mContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                FloatViewManager.getInstance(mContext).hide();  //关闭悬浮球
+            }
+        });
     }
 
     @Override
     public void onStop() {
-
+        /**
+         * 游戏进入后台或退出游戏时，请求下线, 不计时时长
+         */
     }
 
     @Override
@@ -200,8 +221,8 @@ class Wan91SDKImpl extends Wan91SDK implements ActivityLifecycle {
     }
 
     @Override
-    public void onActivityResult() {
-//        SdkHelper.onActivityResult(requestCode, resultCode, data);
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+
     }
 //
 //    private class XYSDKCallback extends SDKCallback {
@@ -288,4 +309,6 @@ class Wan91SDKImpl extends Wan91SDK implements ActivityLifecycle {
 //        }
 //
 //    }
+
+
 }

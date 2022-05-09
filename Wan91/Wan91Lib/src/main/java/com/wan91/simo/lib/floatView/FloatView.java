@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import com.wan91.simo.lib.user.UserPopActivity;
 import com.wan91.simo.lib.utils.LayoutUtils;
+import com.wan91.simo.lib.utils.CommonUtils;
+import com.wan91.simo.lib.utils.ScreenUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,7 +36,7 @@ import java.util.TimerTask;
  * 时间：2019-07-30
  */
 
-public class MCHFloatView extends FrameLayout implements  View.OnTouchListener{
+public class FloatView extends FrameLayout implements  View.OnTouchListener{
     private String TAG = "FloatView";
     private Context mContext = null;
 
@@ -70,14 +72,14 @@ public class MCHFloatView extends FrameLayout implements  View.OnTouchListener{
     private Timer mTimer;//平移悬浮窗定时器
     private Timer autohideTimer = null;//隐藏悬浮窗定时器
 
-    private static MCHFloatView instance = null;//单例模式
+    private static FloatView instance = null;//单例模式
     private int deviceTopBarHeight;
 
-    public static MCHFloatView getInstance(final Context context){
+    public static FloatView getInstance(final Context context){
         if(instance == null) {
-            synchronized (MCHFloatView.class) {
+            synchronized (FloatView.class) {
                 if(instance == null) {
-                    instance = new MCHFloatView(context);
+                    instance = new FloatView(context);
                 }
             }
         }
@@ -85,7 +87,7 @@ public class MCHFloatView extends FrameLayout implements  View.OnTouchListener{
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public MCHFloatView(Context context) {
+    public FloatView(Context context) {
         super(context);
         mContext = context;
         wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -94,9 +96,9 @@ public class MCHFloatView extends FrameLayout implements  View.OnTouchListener{
         //通过像素密度来设置按钮的大小
         dpi = dpi(dm.densityDpi);
          //屏幕宽度（包含虚拟键的整体屏幕宽度）
-        screenWidth = MCHScreenUtils.getHasVirtualWidth(context);
+        screenWidth = ScreenUtils.getHasVirtualWidth(context);
         //屏幕高度（包含虚拟键的整体屏幕高度）
-        screenHeight = MCHScreenUtils.getHasVirtualHight(context);
+        screenHeight = ScreenUtils.getHasVirtualHight(context);
         //布局设置
         wmParams = new WindowManager.LayoutParams();
         // 设置window type
@@ -166,12 +168,12 @@ public class MCHFloatView extends FrameLayout implements  View.OnTouchListener{
 //            tvWeiDu.setVisibility(View.GONE);
 //        }
 
-        deviceTopBarHeight = MCHScreenUtils.getStatusBarHeight(context);// 手机自带任务栏的高度
+        deviceTopBarHeight = ScreenUtils.getStatusBarHeight(context);// 手机自带任务栏的高度
 
 
         ViewGroup.LayoutParams params = rlFloating.getLayoutParams();
-        params.width = MCHCommonUtils.dip2px(context, 40);
-        params.height = MCHCommonUtils.dip2px(context, 40);
+        params.width = CommonUtils.dip2px(context, 40);
+        params.height = CommonUtils.dip2px(context, 40);
         rlFloating.setLayoutParams(params);
         rootFloatView.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
 
@@ -524,7 +526,7 @@ public class MCHFloatView extends FrameLayout implements  View.OnTouchListener{
                             if(wm==null){
                                 return;
                             }
-                            wm.updateViewLayout(MCHFloatView.this,wmParams);
+                            wm.updateViewLayout(FloatView.this,wmParams);
                         }
                     });
                 }else{
@@ -551,7 +553,7 @@ public class MCHFloatView extends FrameLayout implements  View.OnTouchListener{
                             if(wm==null){
                                 return;
                             }
-                            wm.updateViewLayout(MCHFloatView.this,wmParams);
+                            wm.updateViewLayout(FloatView.this,wmParams);
                             SharedPreferences sharedPreferences = mContext.getSharedPreferences("location", Context.MODE_PRIVATE);
                             SharedPreferences.Editor edit = sharedPreferences.edit();
                             edit.putString("float_location", wmParams.x + "|" + wmParams.y);
@@ -614,7 +616,7 @@ public class MCHFloatView extends FrameLayout implements  View.OnTouchListener{
                 ((Activity)mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        MCHFloatView.this.invalidate();
+                        FloatView.this.invalidate();
                     }
                 });
             }

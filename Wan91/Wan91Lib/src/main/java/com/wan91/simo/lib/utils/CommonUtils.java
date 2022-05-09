@@ -1,11 +1,11 @@
-package com.wan91.simo.lib.floatView;
+package com.wan91.simo.lib.utils;
 
 import android.content.Context;
 
 /**
  * 公共工具类
  */
-public class MCHCommonUtils {
+public class CommonUtils {
 
     public static int dip2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;

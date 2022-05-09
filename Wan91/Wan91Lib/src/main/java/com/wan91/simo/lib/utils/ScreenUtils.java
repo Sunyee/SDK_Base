@@ -1,4 +1,4 @@
-package com.wan91.simo.lib.floatView;
+package com.wan91.simo.lib.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
  * 屏幕管理工具类
  */
 
-public class MCHScreenUtils {
+public class ScreenUtils {
 
     /**
      * 获取虚拟按键的高度

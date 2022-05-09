@@ -3,15 +3,12 @@ package com.wan91.simo.lib.user;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +18,6 @@ import com.wan91.simo.lib.listener.OnMultiClickListener;
 import com.wan91.simo.lib.utils.LayoutUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserPopActivity extends Activity {
 
