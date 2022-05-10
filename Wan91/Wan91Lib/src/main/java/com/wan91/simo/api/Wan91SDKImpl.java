@@ -7,15 +7,20 @@ import android.content.Intent;
 
 import com.wan91.simo.lib.constant.GameSDKConstant;
 import com.wan91.simo.lib.floatView.FloatViewManager;
+import com.wan91.simo.lib.listener.OnExitListener;
+import com.wan91.simo.lib.listener.OnInitListener;
+import com.wan91.simo.lib.listener.OnLoginListener;
+import com.wan91.simo.lib.listener.OnLogoutListener;
+import com.wan91.simo.lib.listener.Wan91DialogListener;
 import com.wan91.simo.lib.login.LoginPresenter;
-import com.wan91.simo.lib.login.OnLoginListener;
-import com.wan91.simo.lib.login.OnLogoutListener;
+import com.wan91.simo.lib.login.UserResult;
 import com.wan91.simo.lib.pay.PayCallback;
-import com.wan91.simo.lib.utils.Wan91Log;
+import com.wan91.simo.lib.utils.Log91;
+import com.wan91.windows.Wan91ExitDialog;
 
 import java.util.Map;
 
-class Wan91SDKImpl extends Wan91SDK{
+class Wan91SDKImpl extends Wan91SDK {
 
     private static final String TAG = "YTSSDK";
 
@@ -27,10 +32,11 @@ class Wan91SDKImpl extends Wan91SDK{
     }
 
     private Activity mContext;
+    private OnInitListener mOnInitListener;
     private OnLoginListener mLoginCallback;
     private OnLogoutListener mOnLogoutListener;
     private PayCallback mPayCallback;
-    private  Intent mIntent;
+    private Intent mIntent;
     private boolean isLogining = false;
 
     private Wan91SDKImpl() {
@@ -39,7 +45,7 @@ class Wan91SDKImpl extends Wan91SDK{
 
     private static Wan91SDKImpl instance;
 
-    public static Wan91SDK getInstance() {
+    public static Wan91SDKImpl getInstance() {
         if (instance == null) {
             synchronized (Wan91SDKImpl.class) {
                 if (instance == null) {
@@ -61,32 +67,37 @@ class Wan91SDKImpl extends Wan91SDK{
     }
 
     @Override
-    public void initSDK(final Activity mainActivity) {
+    public void initSDK(final Activity mainActivity, OnInitListener listener) {
+        this.mOnInitListener = listener;
         mContext = mainActivity;
-
-        //应用权限设置？
+        // 应用权限设置？
+        //进行一些sdk操作，暂时没有，先直接返回成功。
+        mOnInitListener.onSuccess();
     }
 
     @Override
     public void setDebug(final boolean debug) {
-        Wan91Log.setDEBUG(debug);
+        Log91.setDEBUG(debug);
     }
 
     @Override
-    public void login() {
+    public void login(OnLoginListener listener) {
+        this.mLoginCallback = listener;
         //调用 登录
-        if (isLogining) {
+        if (isLogining || GameSDKConstant.isLogin) {
+            Log91.d("登录过或者正在进行登录，不可以重复调用");
             return;
         }
         isLogining = true;
         if (null == mContext) {
-            Wan91Log.e(TAG, "fun#login context is null");
+            UserResult userResult = new UserResult();
+            userResult.setResultCode(UserResult.USER_RESULT_LOGIN_FAIL);
+            userResult.setResultMsg("请先进行initSDK");
+            CPCallback.onLoginCallback(userResult);
             return;
         }
         LoginPresenter.instance().doLogin(mContext);
         //假装登录成功
-        GameSDKConstant.isLogin = true;
-
     }
 
     @Override
@@ -123,19 +134,31 @@ class Wan91SDKImpl extends Wan91SDK{
     }
 
     @Override
-    public void exit() {
-//        SdkHelper.exit(0);
-//        退出
+    public void exit(OnExitListener exitListener) {
+        if (mContext == null) return;
+        Wan91ExitDialog exitDialog = new Wan91ExitDialog(mContext);
+        exitDialog.setCallBack(new Wan91DialogListener() {
+            @Override
+            public void ok() {
+                // 1. 注销账号登录
+                exitDialog.dismiss();
+                exitListener.onSuccess();
+                mContext.finish();
+                System.exit(0);
+            }
+
+            @Override
+            public void cancel(String errMsg) {
+                exitListener.onFail("取消");
+            }
+        });
+        exitDialog.show();
+
     }
 
     @Override
     public void setOnLogoutListener(OnLogoutListener onLogoutListener) {
         this.mOnLogoutListener = onLogoutListener;
-    }
-
-    @Override
-    public void setOnLoginListener(OnLoginListener loginListener) {
-        this.mLoginCallback = loginListener;
     }
 
     @Override
@@ -151,7 +174,7 @@ class Wan91SDKImpl extends Wan91SDK{
 
     @Override
     public void setCPMainActivity(Class<?> cls) {
-        Intent intent = new Intent(mApplicationContext,cls);
+        Intent intent = new Intent(mApplicationContext, cls);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.mIntent = intent;
     }
@@ -159,7 +182,7 @@ class Wan91SDKImpl extends Wan91SDK{
     @Override
     public void setCPMainActivity(String mainActivityName) {
         Intent intent = new Intent();
-        intent.setClassName(mApplicationContext.getPackageName(),mainActivityName);
+        intent.setClassName(mApplicationContext.getPackageName(), mainActivityName);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.mIntent = intent;
     }
@@ -179,7 +202,7 @@ class Wan91SDKImpl extends Wan91SDK{
 
     @Override
     public void onResume() {
-        Wan91Log.d("onResume");
+        if (mContext == null) return;
         // 回到游戏，开启上报， 防沉迷等功能
         mContext.runOnUiThread(new Runnable() {
             @Override
@@ -192,7 +215,8 @@ class Wan91SDKImpl extends Wan91SDK{
 
     @Override
     public void onPause() {
-        Wan91Log.d("onPause");
+        if (mContext == null) return;
+
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -214,94 +238,22 @@ class Wan91SDKImpl extends Wan91SDK{
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
     }
-//
-//    private class XYSDKCallback extends SDKCallback {
-//
-//        public XYSDKCallback(Context context) {
-//            super(context);
-//        }
-//
-//        @Override
-//        public void loginCompleted(int loginType, String userName, String accessToken, int vMacNum, int uuidInt) {
-//            if (mLoginCallback != null) {
-//                Bundle bundle = new Bundle();
-//                bundle.putInt("loginType", loginType);
-//                bundle.putString("userName", userName);
-//                bundle.putString("accessToken", accessToken);
-//                bundle.putInt("vMacNum", vMacNum);
-//                bundle.putInt("uuidInt", uuidInt);
-//                mLoginCallback.onSuccess(bundle);
-//            }
-//        }
-//
-//        @Override
-//        public void loginFailed(int code, String message) {
-//            if (mLoginCallback != null) {
-//                mLoginCallback.onFailure(code, message);
-//            }
-//        }
-//
-//        @Override
-//        public void logoutSuccess() {
-//            SMLog.i(TAG,"logoutSuccess impl:" + mLaunchCallback);
-//            if (mLaunchCallback != null) {
-//                Bundle bundle = new Bundle();
-//                bundle.putInt("code", 0);
-//                mLaunchCallback.onLogoutSuccess(bundle);
-//            }
-//        }
-//
-//        @Override
-//        public void logoutFailed() {
-//            if (mLaunchCallback != null) {
-//                mLaunchCallback.onLogoutFailure(-1, "注销失败");
-//            }
-//        }
-//
-//        @Override
-//        public void onExit() {
-//            SMLog.i(TAG,"onExit");
-//            if (mOnExitListener != null){
-//                Bundle bundle = new Bundle();
-//                mOnExitListener.onSuccess(bundle);
-//            }
-//        }
-//
-//        /**
-//         * @param payType 0小y支付 1 三方支付 2 新版本三方支付
-//         * @param status  当payType== 0 时 status  0：成功 -1：失败 -2：取消
-//         *                当payType== 1 时 status不做处理
-//         *                当payType== 2 时 status  0：成功 -1：失败 -2：取消
-//         * @param message 成功的订单号 或者失败的信息
-//         */
-//        @Override
-//        public void payCallBack(int payType, int status, String message) {
-//            if (mPayCallback != null) {
-//                if (payType == 0 || payType == 2) {
-//                    if (status == 0) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("orderCode", message);
-//                        mPayCallback.onSuccess(bundle);
-//                    } else {
-//                        mPayCallback.onFailure(status, message);
-//                    }
-//                }
-//            }
-//        }
-//
-//        @Override
-//        public void onPluginMessage(String message) {
-//            super.onPluginMessage(message);
-//            SMLog.e("SDK", "sjy---" + message);
-//            if (mOnPluginMessageCallback != null) {
-//                mOnPluginMessageCallback.onPluginMessage(message);
-//            }
-//        }
-//
-//    }
+
+    public OnLoginListener getLoginCallback() {
+        isLogining = false; //登录流程结束
+        return mLoginCallback;
+    }
+
+    public OnLogoutListener getOnLogoutListener() {
+        return mOnLogoutListener;
+    }
+
+    public PayCallback getPayCallback() {
+        return mPayCallback;
+    }
 
 
 }

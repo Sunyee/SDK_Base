@@ -1,6 +1,4 @@
-package com.wan91.simo.lib.login;
-
-import android.os.Bundle;
+package com.wan91.simo.lib.listener;
 
 public interface OnLogoutListener {
     void onLogoutResult(String message);

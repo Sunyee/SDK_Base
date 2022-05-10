@@ -5,8 +5,10 @@ import android.app.Application;
 import android.content.Intent;
 
 import com.wan91.simo.application.ActivityLifecycle;
-import com.wan91.simo.lib.login.OnLoginListener;
-import com.wan91.simo.lib.login.OnLogoutListener;
+import com.wan91.simo.lib.listener.OnExitListener;
+import com.wan91.simo.lib.listener.OnInitListener;
+import com.wan91.simo.lib.listener.OnLoginListener;
+import com.wan91.simo.lib.listener.OnLogoutListener;
 import com.wan91.simo.lib.pay.PayCallback;
 
 import java.util.Map;
@@ -31,17 +33,15 @@ public abstract class Wan91SDK implements ActivityLifecycle{
      * 启动SDK接口 需要在onCreate中调用
      * @param mainActivity
      */
-    public abstract void initSDK(Activity mainActivity);
+    public abstract void initSDK(Activity mainActivity, OnInitListener listener);
 
-    public abstract void login();
+    public abstract void login(OnLoginListener listener);
 
     public abstract void logout();
 
-    public abstract void exit();
+    public abstract void exit(OnExitListener exitListener);
 
     public abstract void setOnLogoutListener(OnLogoutListener onLogoutListener);
-
-    public abstract void setOnLoginListener(OnLoginListener onLogoutListener);
 
     public abstract void pay(Map<String, String> payInfos, PayCallback payCallback);
 

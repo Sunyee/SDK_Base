@@ -3,7 +3,7 @@ package com.wan91.simo.lib.floatView;
 import android.app.Activity;
 
 import com.wan91.simo.lib.constant.GameSDKConstant;
-import com.wan91.simo.lib.utils.Wan91Log;
+import com.wan91.simo.lib.utils.Log91;
 
 public class FloatViewManager {
     private static FloatViewManager instance;
@@ -38,7 +38,7 @@ public class FloatViewManager {
         }
         if (!floatingIsShow) {
             floatingIsShow = true;
-            Wan91Log.i("fun#startFloating");
+            Log91.i("fun#startFloating");
             mContext.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -49,10 +49,10 @@ public class FloatViewManager {
     }
 
     public void hide() {
-        Wan91Log.i("floatingIsShow: "+floatingIsShow);
+        Log91.i("floatingIsShow: "+floatingIsShow);
         if (floatingIsShow) {
             floatingIsShow = false;
-            Wan91Log.i("fun#stopFloating");
+            Log91.i("fun#stopFloating");
             mContext.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

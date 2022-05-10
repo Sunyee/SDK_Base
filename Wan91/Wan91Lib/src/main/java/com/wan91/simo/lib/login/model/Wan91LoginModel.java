@@ -25,6 +25,7 @@ public class Wan91LoginModel extends BaseViewModel {
             return;
         }
 
+        //登录流程。 如果是3方登录，还需要走这个接口。
         NetApi.loginBy91("lsy54631", "111111", new JsonCallback<FunctionBean>() {
             @Override
             public void onError(Exception e) {

@@ -11,7 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.wan91.simo.api.Wan91SDK;
-import com.wan91.simo.lib.utils.Wan91Log;
+import com.wan91.simo.lib.utils.Log91;
 
 public class Wan91Application extends Application {
     private String DEFAULT_PKG_NAME;
@@ -28,7 +28,6 @@ public class Wan91Application extends Application {
         }
         // sdk app 相关事件
         Wan91SDK.getInstance().init(this);
-        Log.d("liusy","application");
     }
 
     protected void attachBaseContext(Context base) {
@@ -84,7 +83,7 @@ public class Wan91Application extends Application {
             ai = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
             bundle = ai.metaData;
         } catch (NameNotFoundException var5) {
-            Wan91Log.e(var5.getMessage());
+            Log91.e(var5.getMessage());
         }
 
         return bundle;

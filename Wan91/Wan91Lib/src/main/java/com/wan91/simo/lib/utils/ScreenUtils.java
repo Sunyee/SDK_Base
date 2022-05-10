@@ -10,8 +10,6 @@ import android.view.Display;
 import android.view.View;
 import android.view.ViewConfiguration;
 
-import com.wan91.simo.lib.utils.Wan91Log;
-
 import java.lang.reflect.Method;
 
 /**
@@ -153,7 +151,7 @@ public class ScreenUtils {
         int resourceId = resources.getIdentifier("status_bar_height", "dimen",
                 "android");
         int height = resources.getDimensionPixelSize(resourceId);
-        Wan91Log.v("fun#getStatusBarHeight height:" + height);
+        Log91.v("fun#getStatusBarHeight height:" + height);
         return height;
     }
 

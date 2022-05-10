@@ -3,7 +3,7 @@ package com.wan91.simo.net;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.wan91.simo.lib.utils.Wan91Log;
+import com.wan91.simo.lib.utils.Log91;
 import com.custom.net.okhttp.callback.Callback;
 import com.custom.net.exception.ResultException;
 
@@ -67,7 +67,7 @@ public abstract class JsonCallback<T> extends Callback<T> {
 						}
 					}
 				} catch (Exception e) {
-					Wan91Log.i(TAG, "formJsonException:" + e.getMessage());
+					Log91.i(TAG, "formJsonException:" + e.getMessage());
 				}
 			} else if (status == 0) {
 				throw new ResultException(code,message);
@@ -84,7 +84,7 @@ public abstract class JsonCallback<T> extends Callback<T> {
 					}
 				}
 			} catch (Exception e) {
-				Wan91Log.i(TAG, "formJsonException:" + e.getMessage());
+				Log91.i(TAG, "formJsonException:" + e.getMessage());
 			}
 		}
 		return data;

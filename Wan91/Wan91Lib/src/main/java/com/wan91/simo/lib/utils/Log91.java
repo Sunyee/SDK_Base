@@ -2,7 +2,7 @@ package com.wan91.simo.lib.utils;
 
 import android.util.Log;
 
-public class Wan91Log {
+public class Log91 {
 
     private static boolean DEBUG = false;
 
@@ -47,6 +47,6 @@ public class Wan91Log {
     }
 
     public static void setDEBUG(boolean DEBUG) {
-        Wan91Log.DEBUG = DEBUG;
+        Log91.DEBUG = DEBUG;
     }
 }

@@ -1,4 +1,6 @@
-package com.wan91.simo.lib.login;
+package com.wan91.simo.lib.listener;
+
+import com.wan91.simo.lib.login.UserResult;
 
 /**
  * CP 方登录回调

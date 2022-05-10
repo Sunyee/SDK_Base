@@ -92,7 +92,7 @@ public class LayoutUtils {
 		int id = 0;
 		try {
 			if(context==null){
-				Wan91Log.e("context为空","context为空");
+				Log91.e("context为空","context为空");
 			}
 			packageName = context.getPackageName();
 			//Wan91Log.w(TAG, "packageName:"+packageName);
@@ -122,7 +122,7 @@ public class LayoutUtils {
 			res = context.getResources();
 			id = res.getIdentifier(name, className, context.getPackageName());
 		} catch (Exception e) {
-			Wan91Log.v("getIdByName2 ClassNotFoundException-" + className);
+			Log91.v("getIdByName2 ClassNotFoundException-" + className);
 			e.printStackTrace();
 		}
 		return id;
@@ -147,7 +147,7 @@ public class LayoutUtils {
 		}else if (id1 != 0) {
 			id = id1;
 		}else {
-			Wan91Log.e(TAG, "存在SDK找不到的资源文件:"+"className:"+className+";   name:"+name);
+			Log91.e(TAG, "存在SDK找不到的资源文件:"+"className:"+className+";   name:"+name);
 		}
 		return id;
 	}

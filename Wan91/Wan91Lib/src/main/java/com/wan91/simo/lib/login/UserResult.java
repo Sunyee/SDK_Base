@@ -5,12 +5,12 @@ package com.wan91.simo.lib.login;
  */
 public class UserResult {
 	// ------------------------------user
-//	public static  int mErrCode;// 操作结果
 	public final static  int USER_RESULT_LOGIN_FAIL = -1;// 登录失败
 	public final static int USER_RESULT_LOGIN_SUCC = 1;// 登录成功
 //	public static String sessionid;
 //	
-	private int mErrCode;// 操作结果
+	private int resultCode;// 操作结果
+	private String resultMsg;// 操作结果字符串
 	private String accountNo;
 	private String timeStamp;
 	private String token;
@@ -42,11 +42,11 @@ public class UserResult {
 	}
 
 	private String extra_param;
-	public int getmErrCode() {
-		return mErrCode;
+	public int getResultCode() {
+		return resultCode;
 	}
-	public void setmErrCode(int mErrCode) {
-		this.mErrCode = mErrCode;
+	public void setResultCode(int resultCode) {
+		this.resultCode = resultCode;
 	}
 	public String getAccountNo() {
 		return accountNo;
@@ -66,5 +66,12 @@ public class UserResult {
 	public void setToken(String token) {
 		this.token = token;
 	}
-	
- }
+
+	public String getResultMsg() {
+		return resultMsg;
+	}
+
+	public void setResultMsg(String msg) {
+		this.resultMsg = msg;
+	}
+}

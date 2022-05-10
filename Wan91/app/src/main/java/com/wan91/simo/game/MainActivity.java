@@ -7,16 +7,19 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
+import com.wan91.simo.lib.listener.OnExitListener;
+import com.wan91.simo.lib.listener.OnInitListener;
 import com.wan91.simo.api.Wan91SDK;
-import com.wan91.simo.lib.floatView.FloatViewManager;
-import com.wan91.simo.lib.login.OnLoginListener;
-import com.wan91.simo.lib.login.OnLogoutListener;
+import com.wan91.simo.lib.listener.OnLoginListener;
+import com.wan91.simo.lib.listener.OnLogoutListener;
 import com.wan91.simo.lib.login.UserResult;
 
 public class MainActivity extends Activity implements View.OnClickListener {
-    static final String TAG = "liusy app";
+    static final String TAG = "91wan demo";
     private Button btn_login;
     private Button btn_logout;
     private Button btn_pay;
@@ -26,6 +29,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//去掉信息栏(主要功能就是去除页面弹出时顶部黑色条)
         setContentView(R.layout.activity_main);
 
         btn_login = (Button) findViewById(R.id.btn_login);
@@ -56,7 +61,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //            onPluginMessage();
         } else if (v == btn_create_info) {
             createAccount();
-            FloatViewManager.getInstance(MainActivity.this).hide();
         }
     }
 
@@ -73,7 +77,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void login() {
         //登录接口， 因为和初始化存在并发情况， 一定要在初始化成功之后调用。 否则会导致初始化未完成时进行调用登录不成功。
-        Wan91SDK.getInstance().login();
+
+        Wan91SDK.getInstance().login(loginCallback);
     }
 
 
@@ -82,12 +87,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
      */
     private void sdkInit() {
         // 1.初始化SDK
-//        Wan91SDK.getInstance().init(this);
-        Wan91SDK.getInstance().initSDK(this);
-        Wan91SDK.getInstance().setDebug(true); //上线时不要打开
+        Wan91SDK.getInstance().initSDK(this, new OnInitListener() {
+            @Override
+            public void onSuccess() {
+                //成功后，吊起登录
+                Log.d(TAG, "初始化成功");
+                login();
+            }
 
-        //设置登录回调
-        Wan91SDK.getInstance().setOnLoginListener(loginCallback);
+            @Override
+            public void onFail(String errMsg) {
+                Log.d(TAG, "初始化失败:"+errMsg);
+            }
+        });
+        Wan91SDK.getInstance().setDebug(true); //上线时不要打开
         // 2.账号注销监听初始化
         Wan91SDK.getInstance().setOnLogoutListener(logoutCallback);
         // 3.游戏过程中玩家在sdk内实名认证监听初始化
@@ -111,9 +124,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private OnLoginListener loginCallback = new OnLoginListener() {
         @Override
         public void onFinish(UserResult result) {
-            switch (result.getmErrCode()) {
+            switch (result.getResultCode()) {
                 case UserResult.USER_RESULT_LOGIN_FAIL:
-                    Log.e(TAG, "sdk登录回调：登录失败");
+                    Log.d(TAG, "sdk登录回调：登录失败:"+result.getResultMsg());
                     break;
                 case UserResult.USER_RESULT_LOGIN_SUCC:
                     String uid = result.getAccountNo();     //用户id（用户唯一标识）
@@ -145,7 +158,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //                MCApiFactory.getMCApi().stopFloating(activity); //关闭悬浮球
 //                MCApiFactory.getMCApi().startlogin(activity); //调用登录弹窗
             } else {
-                Log.e(TAG, "sdk注销回调：注销失败");
+                Log.d(TAG, "sdk注销回调：注销失败");
             }
         }
     };
@@ -175,8 +188,30 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Wan91SDK.getInstance().onDestroy();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Wan91SDK.getInstance().onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        Wan91SDK.getInstance().exit(new OnExitListener() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "退出");
+            }
+
+            @Override
+            public void onFail(String errMsg) {
+                Log.d(TAG, "取消或者退出出现异常");
+            }
+        });
     }
 }
