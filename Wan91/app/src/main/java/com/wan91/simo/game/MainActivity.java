@@ -11,9 +11,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+
+import com.wan91.simo.api.Wan91SDK;
 import com.wan91.simo.lib.listener.OnExitListener;
 import com.wan91.simo.lib.listener.OnInitListener;
-import com.wan91.simo.api.Wan91SDK;
 import com.wan91.simo.lib.listener.OnLoginListener;
 import com.wan91.simo.lib.listener.OnLogoutListener;
 import com.wan91.simo.lib.login.UserResult;
@@ -72,7 +74,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void logout() {
-
+        Wan91SDK.getInstance().logout();
     }
 
     private void login() {
@@ -97,7 +99,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onFail(String errMsg) {
-                Log.d(TAG, "初始化失败:"+errMsg);
+                Log.d(TAG, "初始化失败:" + errMsg);
             }
         });
         Wan91SDK.getInstance().setDebug(true); //上线时不要打开
@@ -126,7 +128,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         public void onFinish(UserResult result) {
             switch (result.getResultCode()) {
                 case UserResult.USER_RESULT_LOGIN_FAIL:
-                    Log.d(TAG, "sdk登录回调：登录失败:"+result.getResultMsg());
+                    Log.d(TAG, "sdk登录回调：登录失败:" + result.getResultMsg());
                     break;
                 case UserResult.USER_RESULT_LOGIN_SUCC:
                     String uid = result.getAccountNo();     //用户id（用户唯一标识）
@@ -197,6 +199,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Wan91SDK.getInstance().onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Wan91SDK.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

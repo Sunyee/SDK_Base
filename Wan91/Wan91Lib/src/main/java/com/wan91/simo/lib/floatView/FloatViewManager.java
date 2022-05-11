@@ -38,7 +38,7 @@ public class FloatViewManager {
         }
         if (!floatingIsShow) {
             floatingIsShow = true;
-            Log91.i("fun#startFloating");
+            Log91.i("startFloating");
             mContext.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

@@ -32,8 +32,8 @@ import java.util.TimerTask;
 
 /**
  * 游戏悬浮球视图
- * 作者：闫冰
- * 时间：2019-07-30
+ * 作者：LiuShanyi
+ * 时间：2022-05-08
  */
 
 public class FloatView extends FrameLayout implements  View.OnTouchListener{

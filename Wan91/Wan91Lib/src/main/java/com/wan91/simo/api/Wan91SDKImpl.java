@@ -1,5 +1,6 @@
 package com.wan91.simo.api;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -15,7 +16,9 @@ import com.wan91.simo.lib.listener.Wan91DialogListener;
 import com.wan91.simo.lib.login.LoginPresenter;
 import com.wan91.simo.lib.login.UserResult;
 import com.wan91.simo.lib.pay.PayCallback;
+import com.wan91.simo.lib.utils.DeviceUtils;
 import com.wan91.simo.lib.utils.Log91;
+import com.wan91.simo.lib.utils.PermissionUtils;
 import com.wan91.windows.Wan91ExitDialog;
 
 import java.util.Map;
@@ -70,6 +73,8 @@ class Wan91SDKImpl extends Wan91SDK {
     public void initSDK(final Activity mainActivity, OnInitListener listener) {
         this.mOnInitListener = listener;
         mContext = mainActivity;
+        detectionPermission(mainActivity);
+
         // 应用权限设置？
         //进行一些sdk操作，暂时没有，先直接返回成功。
         mOnInitListener.onSuccess();
@@ -104,6 +109,7 @@ class Wan91SDKImpl extends Wan91SDK {
     public void logout() {
 //        SdkHelper.exit(1);
         //调用 注销
+        DeviceUtils.getDeviceId(mContext);
     }
 
     /**
@@ -242,6 +248,12 @@ class Wan91SDKImpl extends Wan91SDK {
 
     }
 
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 631) {
+            //非强制，先不处理
+        }
+    }
+
     public OnLoginListener getLoginCallback() {
         isLogining = false; //登录流程结束
         return mLoginCallback;
@@ -255,5 +267,10 @@ class Wan91SDKImpl extends Wan91SDK {
         return mPayCallback;
     }
 
-
+    private void detectionPermission(Activity activity) {
+        //  检测并申请权限,  手机状态
+//        String[] permissions = new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        String[] permissions = new String[]{Manifest.permission.READ_PHONE_STATE};
+        PermissionUtils.checkAndRequestMorePermissions(activity, permissions, 631);
+    }
 }

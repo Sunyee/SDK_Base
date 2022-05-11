@@ -11,4 +11,5 @@ public interface ActivityLifecycle {
     void onStop();
     void onDestroy();
     void onActivityResult(int requestCode, int resultCode, Intent data);
+    void onRequestPermissionsResult(int requestCode,String[] permissions,int[] grantResults);
 }

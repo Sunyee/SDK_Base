@@ -151,7 +151,6 @@ public class ScreenUtils {
         int resourceId = resources.getIdentifier("status_bar_height", "dimen",
                 "android");
         int height = resources.getDimensionPixelSize(resourceId);
-        Log91.v("fun#getStatusBarHeight height:" + height);
         return height;
     }
 
