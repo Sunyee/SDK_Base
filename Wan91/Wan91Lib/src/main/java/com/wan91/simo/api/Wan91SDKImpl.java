@@ -19,6 +19,7 @@ import com.wan91.simo.lib.pay.PayCallback;
 import com.wan91.simo.lib.utils.DeviceUtils;
 import com.wan91.simo.lib.utils.Log91;
 import com.wan91.simo.lib.utils.PermissionUtils;
+import com.wan91.simo.lib.utils.Wan91GameConfig;
 import com.wan91.windows.Wan91ExitDialog;
 
 import java.util.Map;
@@ -74,9 +75,8 @@ class Wan91SDKImpl extends Wan91SDK {
         this.mOnInitListener = listener;
         mContext = mainActivity;
         detectionPermission(mainActivity);
-
+        Wan91GameConfig.initGameConfig(mainActivity, listener);
         // 应用权限设置？
-        //进行一些sdk操作，暂时没有，先直接返回成功。
         mOnInitListener.onSuccess();
     }
 
@@ -110,6 +110,7 @@ class Wan91SDKImpl extends Wan91SDK {
 //        SdkHelper.exit(1);
         //调用 注销
         DeviceUtils.getDeviceId(mContext);
+        DeviceUtils.getOAID(mContext);
     }
 
     /**
@@ -273,4 +274,5 @@ class Wan91SDKImpl extends Wan91SDK {
         String[] permissions = new String[]{Manifest.permission.READ_PHONE_STATE};
         PermissionUtils.checkAndRequestMorePermissions(activity, permissions, 631);
     }
+
 }

@@ -8,10 +8,12 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
+import com.bun.miitmdid.core.JLibrary;
 import com.wan91.simo.api.Wan91SDK;
 import com.wan91.simo.lib.utils.Log91;
+import com.wan91.simo.lib.utils.MiitHelper;
+import com.wan91.simo.lib.utils.SharedPreferencesUtils;
 
 public class Wan91Application extends Application {
     private String DEFAULT_PKG_NAME;
@@ -26,8 +28,10 @@ public class Wan91Application extends Application {
         if (this.listener != null) {
             this.listener.onProxyCreate();
         }
+        initOAID();
         // sdk app 相关事件
         Wan91SDK.getInstance().init(this);
+
     }
 
     protected void attachBaseContext(Context base) {
@@ -55,7 +59,7 @@ public class Wan91Application extends Application {
 
             try {
                 Class clazz = Class.forName(proxyAppName);
-                return (IApplicationListener)clazz.newInstance();
+                return (IApplicationListener) clazz.newInstance();
             } catch (ClassNotFoundException var3) {
                 var3.printStackTrace();
             } catch (InstantiationException var4) {
@@ -87,5 +91,30 @@ public class Wan91Application extends Application {
         }
 
         return bundle;
+    }
+
+    private void initOAID() {
+        String oaid = SharedPreferencesUtils.getInstance().getOAID(this);
+        if (!TextUtils.isEmpty(oaid)) {
+            return;
+        }
+        try {
+            JLibrary.InitEntry(this);
+            // 获取OAID等设备标识符
+            MiitHelper miitHelper = new MiitHelper(new MiitHelper.AppIdsUpdater() {
+                @Override
+                public void OnIdsAvalid(String ids) {
+                    // oaid
+                    if (!TextUtils.isEmpty(ids)) {
+                        SharedPreferencesUtils.getInstance().putOAID(Wan91Application.this, ids);
+                    } else {
+                    }
+                }
+            });
+            miitHelper.getDeviceIds(this);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

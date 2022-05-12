@@ -9,7 +9,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.bun.miitmdid.core.JLibrary;
 import com.wan91.simo.api.Wan91SDK;
+import com.wan91.simo.lib.utils.MiitHelper;
+import com.wan91.simo.lib.utils.SharedPreferencesUtils;
 
 
 public class ProxyApplication {
@@ -29,6 +32,7 @@ public class ProxyApplication {
         if (listener != null) {
             listener.onProxyCreate();
         }
+        initOAID(app);
         Wan91SDK.getInstance().init(app);
     }
 
@@ -93,5 +97,28 @@ public class ProxyApplication {
         return bundle;
     }
 
+    private void initOAID(Application context) {
+        String oaid = SharedPreferencesUtils.getInstance().getOAID(context);
+        if (!TextUtils.isEmpty(oaid)) {
+            return;
+        }
+        try {
+            JLibrary.InitEntry(context);
+            // 获取OAID等设备标识符
+            MiitHelper miitHelper = new MiitHelper(new MiitHelper.AppIdsUpdater() {
+                @Override
+                public void OnIdsAvalid(String ids) {
+                    // oaid
+                    if (!TextUtils.isEmpty(ids)) {
+                        SharedPreferencesUtils.getInstance().putOAID(context, ids);
+                    } else {
+                    }
+                }
+            });
+            miitHelper.getDeviceIds(context);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -14,11 +14,13 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 
 import com.wan91.simo.api.Wan91SDK;
+import com.wan91.simo.lib.constant.GameSDKConstant;
 import com.wan91.simo.lib.listener.OnExitListener;
 import com.wan91.simo.lib.listener.OnInitListener;
 import com.wan91.simo.lib.listener.OnLoginListener;
 import com.wan91.simo.lib.listener.OnLogoutListener;
 import com.wan91.simo.lib.login.UserResult;
+import com.wan91.simo.lib.utils.Wan91GameConfig;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     static final String TAG = "91wan demo";
@@ -88,12 +90,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
      * 初始化相关功能
      */
     private void sdkInit() {
+        Wan91SDK.getInstance().setDebug(true); //上线时不要打开
         // 1.初始化SDK
         Wan91SDK.getInstance().initSDK(this, new OnInitListener() {
             @Override
             public void onSuccess() {
                 //成功后，吊起登录
-                Log.d(TAG, "初始化成功");
+                Log.d(TAG, "初始化成功: appid :" + Wan91GameConfig.appid);
                 login();
             }
 
@@ -102,7 +105,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Log.d(TAG, "初始化失败:" + errMsg);
             }
         });
-        Wan91SDK.getInstance().setDebug(true); //上线时不要打开
         // 2.账号注销监听初始化
         Wan91SDK.getInstance().setOnLogoutListener(logoutCallback);
         // 3.游戏过程中玩家在sdk内实名认证监听初始化

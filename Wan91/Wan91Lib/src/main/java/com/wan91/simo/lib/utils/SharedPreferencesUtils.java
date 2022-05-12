@@ -245,4 +245,23 @@ public class SharedPreferencesUtils {
         editor.commit();
     }
 
+    /**
+     * oaid
+     * @return
+     */
+    public void putOAID(Context context,String oaid){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("91wan_oaid",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("oaid",oaid);
+        editor.commit();
+    }
+
+    //获取oaid
+    public String getOAID(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences("91wan_oaid",Context.MODE_PRIVATE);
+        String skinUrl = sharedPreferences.getString("oaid","");
+        return skinUrl;
+    }
+
+
 }

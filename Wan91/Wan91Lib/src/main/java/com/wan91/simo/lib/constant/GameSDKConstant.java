@@ -13,6 +13,11 @@ public class GameSDKConstant {
     public static Boolean isPhoneBind = false; //是否已经进行手机绑定
     public static Boolean isCertificate = false; //是否已经进行实名认证
 
+    public static String GAME_CONFIG = "91wan_config.xml"; //
+    public static final String GAME_APPID = "appid";
+    public static final String GAME_CCHID = "cchid";
+    public static final String GAME_MDID = "mdid";
+
     public static String keFuMessage = ""; //客服信息
     public static String keFuQQ = ""; //客服qq
     public static String keFuPhone = ""; //客服电话

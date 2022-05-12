@@ -28,24 +28,20 @@ public class DeviceUtils {
         String deviceId = "";
         if (Build.VERSION.SDK_INT >= 29){
             deviceId = getAndroidId(context);
-            Log91.d("android id:" + deviceId);
         }else if (Build.VERSION.SDK_INT >= 23){
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED){
                 TelephonyManager mTelephony = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
                 deviceId = mTelephony.getDeviceId();
             }
-            Log91.d(">23 deviceId id:" + deviceId);
         }else{
             TelephonyManager mTelephony = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
             deviceId = mTelephony.getDeviceId();
 
-            Log91.d("<23 deviceId id:" + deviceId);
         }
 
         if (TextUtils.isEmpty(deviceId)){
             try{
                 deviceId = getAndroidId(context);
-                Log91.d("上面的操作为null" + deviceId);
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -53,9 +49,8 @@ public class DeviceUtils {
 
         if (TextUtils.isEmpty(deviceId) || "9774d56d682e549c".equals(deviceId)){
             deviceId = writeDeviceID(context);
-            Log91.d("第二次判断null的操作" + deviceId);
         }
-
+        Log91.d("android deviceId:" + deviceId);
         return deviceId;
 
     }
@@ -76,5 +71,11 @@ public class DeviceUtils {
         }
 
         return uuid;
+    }
+
+    public static String getOAID(Context context){
+        String oaid = SharedPreferencesUtils.getInstance().getOAID(context);
+        Log91.d("android oaid:" + oaid);
+        return oaid;
     }
 }
